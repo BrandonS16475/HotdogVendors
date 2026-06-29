@@ -1,7 +1,39 @@
 stop = 2#
-name = []
 iD = []
-dates =[]
+name =[]
+dates = []
+
+def quickSort(lis):
+    if len(lis) <=1:
+        return lis
+    pivot = lis[0]
+    left = []
+    right = []
+
+    for i in lis[1:]:
+        if i <= pivot:
+            left.append(i)
+        else:
+            right.append(i)
+
+    return(quickSort(left) + [pivot] + quickSort(right))
+
+def binarySearch(items, searchItem):
+    found = False
+    first = 0
+    last = len(items) - 1
+    midpoint = 0
+    while first <= last and found == False:
+        midpoint = (first + last) // 2
+        if items[midpoint] == searchItem:
+            print("Found at", midpoint)
+            found = True
+        elif items[midpoint] < searchItem:
+            first = midpoint + 1
+        else:
+            last = midpoint - 1
+    if found is False:
+        print("Not found")
 
 def linearSearch(items, target):
     index = 0
@@ -15,7 +47,15 @@ def linearSearch(items, target):
             print("not found")
 
 f = open(r"C:\Users\s16475\Documents\GitHub\HotdogVendors\Hotdogs.txt", "r") # opens the file (used the whole directory because was giving an error)
+for i in f:
+    contents = f.readline()
+    sec = contents.split(",")
+    iD.append(sec[0])
+    name.append(sec[1])
+    dates.append(sec[2])
+
 f.close
+
 print("Welcome to the Hotdog Vendors program.")
 
 while stop != 1:
@@ -41,16 +81,19 @@ while stop != 1:
     if do == "s":
         f = open(r"C:\Users\s16475\Documents\GitHub\HotdogVendors\Hotdogs.txt", "r")
 
-        for i in f:
-            contents = f.readline()
-            sec = contents.split(",")
+        quickSort(iD)
+        quickSort(name)
+        quickSort(dates)
 
-            iD.append(sec[0])
-            name.append(sec[1])
-            dates.append(sec[2])
-        stype = input("what would you like to search for? Type name, iD, or dates")
+        stype = input("what would you like to search for? Type name, iD, or dates\n") # Doing search algorithm
         target = input("Enter search target: ")
-        linearSearch(stype, target)
+        if stype == "name":
+            binarySearch(name, target)
+        elif stype == "ID":
+            binarySearch(iD, target)
+        elif stype == "dates":
+            binarySearch(dates, target)
+        
 
     if do == "stop":
         f.close

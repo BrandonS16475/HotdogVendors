@@ -1,4 +1,7 @@
-stop = 2#
+import os
+
+stop = 2
+doEdit = ""
 iD = []
 name =[]
 dates = []
@@ -46,6 +49,7 @@ def linearSearch(items, target):
         if found == False:
             print("not found")
 
+
 f = open(r"C:\Users\s16475\Documents\GitHub\HotdogVendors\Hotdogs.txt", "r") # opens the file (used the whole directory because was giving an error)
 for i in f:
     contents = f.readline()
@@ -85,15 +89,50 @@ while stop != 1:
         quickSort(name)
         quickSort(dates)
 
+        types = input("Would you rather search normally or search in a sorted way? ")
         stype = input("what would you like to search for? Type name, iD, or dates\n") # Doing search algorithm
         target = input("Enter search target: ")
-        if stype == "name":
-            binarySearch(name, target)
-        elif stype == "ID":
-            binarySearch(iD, target)
-        elif stype == "dates":
-            binarySearch(dates, target)
-        
+        if types == "sorted":
+            if stype == "name":
+                binarySearch(name, target)
+            elif stype == "ID":
+                binarySearch(iD, target)
+            elif stype == "dates":
+                binarySearch(dates, target)
+        if types == "sorted":
+            if stype == "name":
+                linearSearch(name, target)
+            elif stype == "ID":
+                linearSearch(iD, target)
+            elif stype == "dates":
+                linearSearch(dates, target)
+        f.close
+
+    if do == "e":
+        i = 0
+        n = open("HotdogsNew.txt", "a")
+
+        f = open(r"C:\Users\s16475\Documents\GitHub\HotdogVendors\Hotdogs.txt", "r")
+
+        contents = f.read()
+        n.write(contents)
+
+        n.close
+        f.close
+        while doEdit != "stop":
+            doEdit = input("What would you like to do?")
+            if doEdit == "clear":
+                n = open("HotdogsNew.txt", "w")
+                n.write("")
+                n.close
+            if doEdit == "readline":
+                line = int(input("Which line to read? "))
+                while i < line:
+                    f = open(r"C:\Users\s16475\Documents\GitHub\HotdogVendors\Hotdogs.txt", "r")
+                    lines = f.readline()
+                    i = i + 1
+                print(lines)
+
 
     if do == "stop":
         f.close
